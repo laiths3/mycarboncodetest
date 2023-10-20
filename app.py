@@ -2,11 +2,15 @@ import streamlit as st
 
 # Define emission factors (example values, replace with accurate data)
 EMISSION_FACTORS = {
-    "India": {
-        "Transportation": 0.14,  # kgCO2/km
-        "Electricity": 0.82,  # kgCO2/kWh
-        "Diet": 1.25,  # kgCO2/meal, 2.5kgco2/kg
-        "Waste": 0.1  # kgCO2/kg
+    "United Arab Emirates": {
+        "Transportation": 0.25,  # kgCO2/km
+        "Electricity": 0.55,  # kgCO2/kWh
+        "Diet": {
+            "Plant-based": 0.5,      # kgCO2/meal
+            "Mixed diet": 1.5,        # kgCO2/meal
+            "Meat-heavy diet": 2.5    # kgCO2/meal
+        },
+        "Waste": 0.8  # kgCO2/kg
     }
 }
 
@@ -18,7 +22,7 @@ st.title("Personal Carbon Calculator App ⚠️")
 
 # User inputs
 st.subheader("🌍 Your Country")
-country = st.selectbox("Select", ["India"])
+country = st.selectbox("Select", ["United Arab Emirates"])
 
 col1, col2 = st.columns(2)
 
@@ -49,7 +53,8 @@ if waste > 0:
 # Calculate carbon emissions
 transportation_emissions = EMISSION_FACTORS[country]["Transportation"] * distance
 electricity_emissions = EMISSION_FACTORS[country]["Electricity"] * electricity
-diet_emissions = EMISSION_FACTORS[country]["Diet"] * meals
+diet_type = st.radio("Select your diet type", ["Plant-based", "Mixed diet", "Meat-heavy diet"])
+diet_emissions = EMISSION_FACTORS[country]["Diet"][diet_type] * meals
 waste_emissions = EMISSION_FACTORS[country]["Waste"] * waste
 
 # Convert emissions to tonnes and round off to 2 decimal points
@@ -64,7 +69,6 @@ total_emissions = round(
 )
 
 if st.button("Calculate CO2 Emissions"):
-
     # Display results
     st.header("Results")
 
@@ -74,11 +78,12 @@ if st.button("Calculate CO2 Emissions"):
         st.subheader("Carbon Emissions by Category")
         st.info(f"🚗 Transportation: {transportation_emissions} tonnes CO2 per year")
         st.info(f"💡 Electricity: {electricity_emissions} tonnes CO2 per year")
-        st.info(f"🍽️ Diet: {diet_emissions} tonnes CO2 per year")
+        st.info(f"🍽️ Diet ({diet_type}): {diet_emissions} tonnes CO2 per year")
         st.info(f"🗑️ Waste: {waste_emissions} tonnes CO2 per year")
 
     with col4:
         st.subheader("Total Carbon Footprint")
         st.success(f"🌍 Your total carbon footprint is: {total_emissions} tonnes CO2 per year")
-        st.warning("In 2021, CO2 emissions per capita for India was 1.9 tons of CO2 per capita. Between 1972 and 2021, CO2 emissions per capita of India grew substantially from 0.39 to 1.9 tons of CO2 per capita rising at an increasing annual rate that reached a maximum of 9.41% in 2021")
-
+        avg_sequestration_per_tree = 0.022  # Average CO2 sequestration per tree in metric tonnes
+        trees_required = round(total_emissions / avg_sequestration_per_tree, 2)
+        st.warning(f"🌳 This is equivalent to the CO2 absorbed by approximately {trees_required} trees in a year")
