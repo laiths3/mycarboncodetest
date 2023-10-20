@@ -15,7 +15,7 @@ EMISSION_FACTORS = {
 }
 
 # Set wide layout and page name
-st.set_page_config(layout="wide", page_title="Personal Carbon Calculator")
+st.set_page_config(layout="wide", page_title="Calculate your carbon footprint "u1F5A9 ")
 
 # Streamlit app code
 st.title("Personal Carbon Calculator App ⚠️")
@@ -34,10 +34,10 @@ with col1:
     electricity = st.slider("Electricity", 0.0, 1000.0, key="electricity_input")
 
 with col2:
-    st.subheader("🍽️ Waste generated per week (in kg)")
-    waste = st.slider("🗑️ Waste", 0.0, 100.0, key="waste_input")
+    st.subheader("🗑️ Waste generated per week (in kg)")
+    waste = st.slider("Waste", 0.0, 100.0, key="waste_input")
 
-    st.subheader(" Number of meals per day")
+    st.subheader("🍽️ Number of meals per day")
     meals = st.number_input("Meals", 0, key="meals_input")
 
 # Normalize inputs
