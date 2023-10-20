@@ -96,6 +96,7 @@ if st.button("Calculate CO2 Emissions"):
     with col4:
         st.subheader("Total Carbon Footprint")
         st.success(f"🌍 Your total carbon footprint is: {total_emissions} tonnes CO2 per year")
-        avg sequestration per tree = 0.022  # Average CO2 sequestration per tree in metric tonnes
+        avg_sequestration_per_tree = 0.022  # Average CO2 sequestration per tree in metric tonnes
         trees_required = round(total_emissions / avg_sequestration_per_tree, 2)
         st.warning(f"🌳 This is equivalent to the CO2 absorbed by approximately {trees_required} trees in a year")
+
