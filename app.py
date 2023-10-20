@@ -15,7 +15,7 @@ EMISSION_FACTORS = {
 }
 
 # Set wide layout and page name
-st.set_page_config(layout="wide", page_title="Calculate your carbon footprint ")
+st.set_page_config(layout="wide", page_title="Calculate your carbon footprint")
 
 # Streamlit app code
 st.title("Calculate your carbon footprint 🗺️🦶")
@@ -41,13 +41,26 @@ with col2:
     meals = st.number_input("Meals", 0, key="meals_input")
 
 # Normalize inputs
-distance = float(distance)
-electricity = float(electricity)
+try:
+    distance = float(distance)
+except ValueError:
+    st.warning("Please enter a valid number for Daily commute distance. Using 0.0 as default.")
+    distance = 0.0
+
+try:
+    electricity = float(electricity)
+except ValueError:
+    st.warning("Please enter a valid number for Monthly electricity consumption. Using 0.0 as default.")
+    electricity = 0.0
+
+try:
+    waste = float(waste)
+except ValueError:
+    st.warning("Please enter a valid number for Waste generated per week. Using 0.0 as default.")
+    waste = 0.0
 
 if meals > 0:
     meals = meals * 365  # Convert daily meals to yearly
-if waste > 0:
-    waste = waste * 52  # Convert weekly waste to yearly
 
 # Calculate carbon emissions
 transportation_emissions = EMISSION_FACTORS[country]["Transportation"] * distance
@@ -83,6 +96,6 @@ if st.button("Calculate CO2 Emissions"):
     with col4:
         st.subheader("Total Carbon Footprint")
         st.success(f"🌍 Your total carbon footprint is: {total_emissions} tonnes CO2 per year")
-        avg_sequestration_per_tree = 0.022  # Average CO2 sequestration per tree in metric tonnes
+        avg sequestration per tree = 0.022  # Average CO2 sequestration per tree in metric tonnes
         trees_required = round(total_emissions / avg_sequestration_per_tree, 2)
         st.warning(f"🌳 This is equivalent to the CO2 absorbed by approximately {trees_required} trees in a year")
