@@ -18,7 +18,7 @@ EMISSION_FACTORS = {
 st.set_page_config(layout="wide", page_title="Calculate your carbon footprint ")
 
 # Streamlit app code
-st.title("Calculate your carbon footprint ⚠️")
+st.title("Calculate your carbon footprint 🗺️🦶")
 
 # User inputs
 st.subheader("🌍 Your Country")
