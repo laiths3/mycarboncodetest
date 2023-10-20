@@ -28,26 +28,26 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("🚗 Daily commute distance (in km)")
-    use_slider_for_distance = st.checkbox("Use Slider", True)
+    use_slider_for_distance = st.checkbox("Use Slider", True, key="distance_checkbox")
     if use_slider_for_distance:
-        distance = st.slider("Distance", 0.0, 100.0, key="distance_input")
+        distance = st.slider("Distance", 0.0, 100.0, key="distance_slider")
     else:
-        distance = st.text_input("Distance", "0.0")
+        distance = st.text_input("Distance", "0.0", key="distance_input")
 
     st.subheader("💡 Monthly electricity consumption (in kWh)")
-    use_slider_for_electricity = st.checkbox("Use Slider", True)
+    use_slider_for_electricity = st.checkbox("Use Slider", True, key="electricity_checkbox")
     if use_slider_for_electricity:
-        electricity = st.slider("Electricity", 0.0, 1000.0, key="electricity_input")
+        electricity = st.slider("Electricity", 0.0, 1000.0, key="electricity_slider")
     else:
-        electricity = st.text_input("Electricity", "0.0")
+        electricity = st.text_input("Electricity", "0.0", key="electricity_input")
 
 with col2:
     st.subheader("🗑️ Waste generated per week (in kg)")
-    use_slider_for_waste = st.checkbox("Use Slider", True)
+    use_slider_for_waste = st.checkbox("Use Slider", True, key="waste_checkbox")
     if use_slider_for_waste:
-        waste = st.slider("Waste", 0.0, 100.0, key="waste_input")
+        waste = st.slider("Waste", 0.0, 100.0, key="waste_slider")
     else:
-        waste = st.text_input("Waste", "0.0")
+        waste = st.text_input("Waste", "0.0", key="waste_input")
 
     st.subheader("🍽️ Number of meals per day")
     meals = st.number_input("Meals", 0, key="meals_input")
