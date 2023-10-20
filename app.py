@@ -6,9 +6,9 @@ EMISSION_FACTORS = {
         "Transportation": 0.25,  # kgCO2/km
         "Electricity": 0.55,  # kgCO2/kWh
         "Diet": {
-            "Plant-based": 0.5,      # kgCO2/meal
-            "Mixed diet": 1.5,        # kgCO2/meal
-            "Meat-heavy diet": 2.5    # kgCO2/meal
+            "Plant-based": 0.5,  # kgCO2/meal
+            "Mixed diet": 1.5,  # kgCO2/meal
+            "Meat-heavy diet": 2.5  # kgCO2/meal
         },
         "Waste": 0.8  # kgCO2/kg
     }
@@ -28,23 +28,22 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("🚗 Daily commute distance (in km)")
-    distance = st.slider("Distance", 0.0, 100.0, key="distance_input")
+    distance = st.text_input("Distance", "0.0")
 
     st.subheader("💡 Monthly electricity consumption (in kWh)")
-    electricity = st.slider("Electricity", 0.0, 1000.0, key="electricity_input")
+    electricity = st.text_input("Electricity", "0.0")
 
 with col2:
     st.subheader("🗑️ Waste generated per week (in kg)")
-    waste = st.slider("Waste", 0.0, 100.0, key="waste_input")
+    waste = st.text_input("Waste", "0.0")
 
     st.subheader("🍽️ Number of meals per day")
     meals = st.number_input("Meals", 0, key="meals_input")
 
 # Normalize inputs
-if distance > 0:
-    distance = distance * 365  # Convert daily distance to yearly
-if electricity > 0:
-    electricity = electricity * 12  # Convert monthly electricity to yearly
+distance = float(distance)
+electricity = float(electricity)
+
 if meals > 0:
     meals = meals * 365  # Convert daily meals to yearly
 if waste > 0:
