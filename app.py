@@ -28,39 +28,48 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("🚗 Daily commute distance (in km)")
-    distance = st.text_input("Distance", "0.0")
+    use_slider_for_distance = st.checkbox("Use Slider", True)
+    if use_slider_for_distance:
+        distance = st.slider("Distance", 0.0, 100.0, key="distance_input")
+    else:
+        distance = st.text_input("Distance", "0.0")
 
     st.subheader("💡 Monthly electricity consumption (in kWh)")
-    electricity = st.text_input("Electricity", "0.0")
+    use_slider_for_electricity = st.checkbox("Use Slider", True)
+    if use_slider_for_electricity:
+        electricity = st.slider("Electricity", 0.0, 1000.0, key="electricity_input")
+    else:
+        electricity = st.text_input("Electricity", "0.0")
 
 with col2:
     st.subheader("🗑️ Waste generated per week (in kg)")
-    waste = st.text_input("Waste", "0.0")
+    use_slider_for_waste = st.checkbox("Use Slider", True)
+    if use_slider_for_waste:
+        waste = st.slider("Waste", 0.0, 100.0, key="waste_input")
+    else:
+        waste = st.text_input("Waste", "0.0")
 
     st.subheader("🍽️ Number of meals per day")
     meals = st.number_input("Meals", 0, key="meals_input")
 
 # Normalize inputs
-try:
+if use_slider_for_distance:
+    distance = distance * 365  # Convert daily distance to yearly
+else:
     distance = float(distance)
-except ValueError:
-    st.warning("Please enter a valid number for Daily commute distance. Using 0.0 as default.")
-    distance = 0.0
 
-try:
+if use_slider_for_electricity:
+    electricity = electricity * 12  # Convert monthly electricity to yearly
+else:
     electricity = float(electricity)
-except ValueError:
-    st.warning("Please enter a valid number for Monthly electricity consumption. Using 0.0 as default.")
-    electricity = 0.0
-
-try:
-    waste = float(waste)
-except ValueError:
-    st.warning("Please enter a valid number for Waste generated per week. Using 0.0 as default.")
-    waste = 0.0
 
 if meals > 0:
     meals = meals * 365  # Convert daily meals to yearly
+
+if use_slider_for_waste:
+    waste = waste * 52  # Convert weekly waste to yearly
+else:
+    waste = float(waste)
 
 # Calculate carbon emissions
 transportation_emissions = EMISSION_FACTORS[country]["Transportation"] * distance
@@ -99,4 +108,3 @@ if st.button("Calculate CO2 Emissions"):
         avg_sequestration_per_tree = 0.022  # Average CO2 sequestration per tree in metric tonnes
         trees_required = round(total_emissions / avg_sequestration_per_tree, 2)
         st.warning(f"🌳 This is equivalent to the CO2 absorbed by approximately {trees_required} trees in a year")
-
